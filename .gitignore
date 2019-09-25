@@ -1,6 +1,7 @@
 ### Container Data Folders
 /data/
 /logs/
+*.sql
 
 # Created by .ignore support plugin (hsz.mobi)
 ### JetBrains template

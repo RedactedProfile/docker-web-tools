@@ -1,0 +1,20 @@
+{
+  "name": "docker-tools",
+  "version": "1.0.0",
+  "description": "---",
+  "main": "index.js",
+  "scripts": {
+    "mysql-dump": "docker exec -it mysql_database bash -c \"mysqldump --all-databases -uroot -ptoor > /dumps/latest-dump.sql\"",
+    "maria-dump": "docker exec -it maria_database bash -c \"mysqldump --all-databases -uroot -ptoor > /dumps/latest-dump.sql\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RedactedProfile/docker-web-tools.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RedactedProfile/docker-web-tools/issues"
+  },
+  "homepage": "https://github.com/RedactedProfile/docker-web-tools#readme"
+}

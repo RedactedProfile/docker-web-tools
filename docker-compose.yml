@@ -1,4 +1,15 @@
 version: '3'
+
+volumes:
+  mysql:
+  mariadb:
+  postgres:
+  pgadmin:
+  mongo:
+  elasticsearch:
+  rabbitmq:
+  neo4j:
+
 services:
   mysql:
     image: mysql:8
@@ -10,7 +21,21 @@ services:
       MYSQL_ROOT_HOST: '%' # Will allow you to connect with external tools. Tighten up to your desires
       MYSQL_ROOT_PASSWORD: "${SHARED_PASS}"
     volumes:
-      - ./data/mysql:/var/lib/mysql
+      - mysql:/var/lib/mysql
+      - ./data/mysql/dumps:/dumps
+
+  mariadb:
+    image: mariadb:10.4
+    restart: always
+    container_name: maria_database
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_HOST: '%' # Will allow you to connect with external tools. Tighten up to your desires
+      MYSQL_ROOT_PASSWORD: "${SHARED_PASS}"
+    volumes:
+      - mariadb:/var/lib/mysql
+      - ./data/mariadb/dumps:/dumps
 
   postgres:
     image: postgres:11
@@ -23,7 +48,7 @@ services:
       POSTGRES_USER: "${SHARED_USER}"
       POSTGRES_PASSWORD: "${SHARED_PASS}"
     volumes:
-      - ./data/postgres:/var/lib/postgresql/data
+      - postgres:/var/lib/postgresql/data
 
   pgadmin:
     image: dpage/pgadmin4
@@ -33,10 +58,9 @@ services:
       PGADMIN_DEFAULT_EMAIL: "${ADMIN_EMAIL}"
       PGADMIN_DEFAULT_PASSWORD: "${SHARED_PASS}"
       PGADMIN_CONFIG_ENHANCED_COOKIE_PROTECTION: "True"
-#      PGADMIN_CONFIG_LOGIN_BANNER: "Authorised users only!"
     volumes:
-      - ./config/pgadmin/servers.json:/servers.json
-      - ./data/pgadmin/lib/pgadmin:/var/lib/pgadmin
+      - ./config/pgadmin/servers.json:/pgadmin4/servers.json
+      - pgadmin:/var/lib/pgadmin
     ports:
       - 5433:80
       - 5434:443
@@ -53,7 +77,7 @@ services:
       MONGO_INITDB_ROOT_USERNAME: "${SHARED_USER}"
       MONGO_INITDB_ROOT_PASSWORD: "${SHARED_PASS}"
     volumes:
-      - ./data/mongo:/data/db
+      - mongo:/data/db
 
   mongo-express:
     image: mongo-express
@@ -83,7 +107,7 @@ services:
         soft: -1
         hard: -1
     volumes:
-      - ./data/elasticsearch:/usr/share/elasticsearch/data
+      - elasticsearch:/usr/share/elasticsearch/data
     ports:
       - 9200:9200
 
@@ -106,7 +130,7 @@ services:
     ports:
       - 5672:5672
     volumes:
-      - ./data/rabbitmq:/var/lib/rabbitmq
+      - rabbitmq:/var/lib/rabbitmq
 
   neo4j:
     image: neo4j:3.5
@@ -115,7 +139,7 @@ services:
     environment:
       NEO4J_ACCEPT_LICENSE_AGREEMENT: "yes"
     volumes:
-      - ./data/neo4j:/data
+      - neo4j:/data
       - ./logs/neo4j:/logs
     ports:
       - 7474:7474

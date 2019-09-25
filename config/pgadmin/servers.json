@@ -1,1 +1,13 @@
-{}
+{
+  "Servers": {
+    "1": {
+      "Name": "localhost",
+      "Group": "Local Servers",
+      "Port": 5432,
+      "Username": "root",
+      "Host": "postgres",
+      "SSLMode": "prefer",
+      "MaintenanceDB": "postgres"
+    }
+  }
+}
