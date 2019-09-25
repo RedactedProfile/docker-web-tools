@@ -1,0 +1,102 @@
+version: '3'
+services:
+  mysql:
+    image: mysql:8
+    restart: always
+    container_name: mysql_database
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_HOST: '%' # Will allow you to connect with external tools. Tighten up to your desires
+      MYSQL_ROOT_PASSWORD: "${SHARED_PASS}"
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+
+  postgres:
+    image: postgres:11
+    restart: always
+    container_name: pg_database
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_PASSWORD: "${SHARED_PASS}"
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
+
+  mongo:
+    image: mongo:4.2
+    restart: always
+    container_name: mongo_database
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: "${SHARED_USER}"
+      MONGO_INITDB_ROOT_PASSWORD: "${SHARED_PASS}"
+    volumes:
+      - ./data/mongo:/data/db
+
+  mongo-express:
+    image: mongo-express
+    restart: always
+    container_name: mongo_admin
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: "${SHARED_USER}"
+      ME_CONFIG_MONGODB_ADMINPASSWORD: "${SHARED_PASS}"
+    depends_on:
+      - mongo
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.3.2
+    restart: always
+    container_name: elasticsearch_database
+    environment:
+      - node.name=es01
+      - discovery.seed_hosts=es02
+      - cluster.initial_master_nodes=es01,es02
+      - cluster.name=docker-cluster
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - ./data/elasticsearch:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+
+  redis:
+    image: redis:5
+    restart: always
+    container_name: redis_cache
+    ports:
+      - 6379:6379
+#    volumes:
+#      - ./data/redis5:/data
+
+  rabbitmq:
+    image: rabbitmq:3.7
+    restart: always
+    container_name: rabbitmq_messaging
+    environment:
+      RABBITMQ_DEFAULT_USER: "${SHARED_USER}"
+      RABBITMQ_DEFAULT_PASS: "${SHARED_PASS}"
+    ports:
+      - 5672:5672
+    volumes:
+      - ./data/rabbitmq:/var/lib/rabbitmq
+
+  neo4j:
+    image: neo4j:3.5
+    restart: always
+    container_name: neo4j_database
+    environment:
+      NEO4J_ACCEPT_LICENSE_AGREEMENT: "yes"
+    volumes:
+      - ./data/neo4j:/data
+      - ./logs/neo4j:/logs
+    ports:
+      - 7474:7474
+      - 7687:7687
