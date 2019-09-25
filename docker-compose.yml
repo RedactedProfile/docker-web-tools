@@ -18,10 +18,30 @@ services:
     container_name: pg_database
     ports:
       - 5432:5432
+    user: "root"
     environment:
+      POSTGRES_USER: "${SHARED_USER}"
       POSTGRES_PASSWORD: "${SHARED_PASS}"
     volumes:
       - ./data/postgres:/var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4
+    restart: always
+    container_name: pg_admin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "${ADMIN_EMAIL}"
+      PGADMIN_DEFAULT_PASSWORD: "${SHARED_PASS}"
+      PGADMIN_CONFIG_ENHANCED_COOKIE_PROTECTION: "True"
+#      PGADMIN_CONFIG_LOGIN_BANNER: "Authorised users only!"
+    volumes:
+      - ./config/pgadmin/servers.json:/servers.json
+      - ./data/pgadmin/lib/pgadmin:/var/lib/pgadmin
+    ports:
+      - 5433:80
+      - 5434:443
+    depends_on:
+      - postgres
 
   mongo:
     image: mongo:4.2
