@@ -1,0 +1,9 @@
+###
+# This is added because not a lot of libraries and plugins out there support the new authentication method yet.
+# When the majority seem to do, this can be safely removed.
+#
+# Library Status:
+#   node-mysql2:  fixed, not deployed https://github.com/sidorares/node-mysql2/pull/1021#event-2679000493
+###
+[mysqld-8.0]
+default_authentication_plugin=mysql_native_password
