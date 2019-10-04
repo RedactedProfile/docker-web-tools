@@ -10,14 +10,12 @@ volumes:
   rabbitmq:
   neo4j:
 
-networks:
-  datastore:
-
 services:
   mysql:
     image: mysql:8
     restart: always
     container_name: mysql_database
+    network_mode: bridge
     ports:
       - 3306:3306
     environment:
@@ -28,13 +26,11 @@ services:
       - mysql:/var/lib/mysql
       - ./data/mysql/dumps:/dumps
 
-    networks:
-      - datastore
-
   mariadb:
     image: mariadb:10.4
     restart: always
     container_name: maria_database
+    network_mode: bridge
     ports:
       - 3306:3306
     environment:
@@ -43,13 +39,12 @@ services:
     volumes:
       - mariadb:/var/lib/mysql
       - ./data/mariadb/dumps:/dumps
-    networks:
-      - datastore
 
   postgres:
     image: postgres:11
     restart: always
     container_name: pg_database
+    network_mode: bridge
     ports:
       - 5432:5432
     user: "root"
@@ -58,13 +53,12 @@ services:
       POSTGRES_PASSWORD: "${SHARED_PASS}"
     volumes:
       - postgres:/var/lib/postgresql/data
-    networks:
-      - datastore
 
   pgadmin:
     image: dpage/pgadmin4
     restart: always
     container_name: pg_admin
+    network_mode: bridge
     environment:
       PGADMIN_DEFAULT_EMAIL: "${ADMIN_EMAIL}"
       PGADMIN_DEFAULT_PASSWORD: "${SHARED_PASS}"
@@ -77,13 +71,12 @@ services:
       - 5434:443
     depends_on:
       - postgres
-    networks:
-      - datastore
 
   mongo:
     image: mongo:4.2
     restart: always
     container_name: mongo_database
+    network_mode: bridge
     ports:
       - 27017:27017
     environment:
@@ -91,13 +84,12 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: "${SHARED_PASS}"
     volumes:
       - mongo:/data/db
-    networks:
-      - datastore
 
   mongo-express:
     image: mongo-express
     restart: always
     container_name: mongo_admin
+    network_mode: bridge
     ports:
       - 8081:8081
     environment:
@@ -105,13 +97,12 @@ services:
       ME_CONFIG_MONGODB_ADMINPASSWORD: "${SHARED_PASS}"
     depends_on:
       - mongo
-    networks:
-      - datastore
 
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.3.2
     restart: always
     container_name: elasticsearch_database
+    network_mode: bridge
     environment:
       - node.name=es01
       - discovery.seed_hosts=es02
@@ -127,24 +118,22 @@ services:
       - elasticsearch:/usr/share/elasticsearch/data
     ports:
       - 9200:9200
-    networks:
-      - datastore
 
   redis:
     image: redis:5
     restart: always
     container_name: redis_cache
+    network_mode: bridge
     ports:
       - 6379:6379
 #    volumes:
 #      - ./data/redis5:/data
-    networks:
-      - datastore
 
   rabbitmq:
     image: rabbitmq:3.7
     restart: always
     container_name: rabbitmq_messaging
+    network_mode: bridge
     environment:
       RABBITMQ_DEFAULT_USER: "${SHARED_USER}"
       RABBITMQ_DEFAULT_PASS: "${SHARED_PASS}"
@@ -152,13 +141,12 @@ services:
       - 5672:5672
     volumes:
       - rabbitmq:/var/lib/rabbitmq
-    networks:
-      - datastore
 
   neo4j:
     image: neo4j:3.5
     restart: always
     container_name: neo4j_database
+    network_mode: bridge
     environment:
       NEO4J_ACCEPT_LICENSE_AGREEMENT: "yes"
     volumes:
@@ -167,5 +155,3 @@ services:
     ports:
       - 7474:7474
       - 7687:7687
-    networks:
-      - datastore
