@@ -40,6 +40,21 @@ services:
       - mariadb:/var/lib/mysql
       - ./data/mariadb/dumps:/dumps
 
+  postgres_ext:
+    image: red-postgres:latest 
+    build: "./custom/postgres_ext/."
+    restart: always
+    container_name: pg_ext_database
+    network_mode: bridge
+    ports:
+      - 5432:5432
+    user: "root"
+    environment:
+      POSTGRES_USER: "${SHARED_USER}"
+      POSTGRES_PASSWORD: "${SHARED_PASS}"
+    volumes:
+      - postgres:/var/lib/postgresql/data
+
   postgres:
     image: postgres:11
     restart: always
