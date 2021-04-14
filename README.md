@@ -11,6 +11,12 @@ web application developers.
 
 ## Included
 
+### MySQL 5.7
+tools: 
+ - phpMyAdmin
+
+`docker-compose up -d mysql_legacy`
+
 ### MySQL 8
 tools: 
  - phpMyAdmin
