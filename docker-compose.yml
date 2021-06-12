@@ -9,6 +9,7 @@ volumes:
   elasticsearch:
   rabbitmq:
   neo4j:
+  registry:
 
 services:
 
@@ -186,3 +187,13 @@ services:
     ports:
       - 7474:7474
       - 7687:7687
+      
+  registry:
+    image: registry:2
+    container_name: docker_registry
+    restart: always 
+    network_mode: bridge
+    volumes:
+      - registry:/var/lib/registry
+    ports:
+      - 5000:5000 
