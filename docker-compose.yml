@@ -7,6 +7,8 @@ services:
     restart: always
     container_name: mysql_database
     network_mode: bridge
+    networks: 
+      - services
     ports:
       - 3306:3306
     environment:
@@ -22,6 +24,8 @@ services:
     restart: always
     container_name: mysql_database
     network_mode: bridge
+    networks: 
+      - services
     ports:
       - 3306:3306
     environment:
@@ -37,6 +41,8 @@ services:
     restart: always
     container_name: maria_database
     network_mode: bridge
+    networks: 
+      - services
     ports:
       - 3306:3306
     environment:
@@ -52,6 +58,8 @@ services:
     restart: always
     container_name: pg_ext_database
     network_mode: bridge
+    networks: 
+      - services
     ports:
       - 5432:5432
     user: "root"
@@ -66,6 +74,8 @@ services:
     restart: always
     container_name: pg_database
     network_mode: bridge
+    networks: 
+      - services
     ports:
       - 5432:5432
     user: "root"
@@ -80,6 +90,8 @@ services:
     restart: always
     container_name: pg_admin
     network_mode: bridge
+    networks: 
+      - services
     environment:
       PGADMIN_DEFAULT_EMAIL: "${ADMIN_EMAIL}"
       PGADMIN_DEFAULT_PASSWORD: "${SHARED_PASS}"
@@ -98,6 +110,8 @@ services:
     restart: always
     container_name: mongo_database
     network_mode: bridge
+    networks: 
+      - services
     ports:
       - 27017:27017
     environment:
@@ -111,6 +125,8 @@ services:
     restart: always
     container_name: mongo_admin
     network_mode: bridge
+    networks: 
+      - services
     ports:
       - 8081:8081
     environment:
@@ -124,6 +140,8 @@ services:
     restart: always
     container_name: elasticsearch_database
     network_mode: bridge
+    networks: 
+      - services
     environment:
       - node.name=es01
       - discovery.seed_hosts=es02
@@ -145,6 +163,8 @@ services:
     restart: always
     container_name: redis_cache
     network_mode: bridge
+    networks: 
+      - services
     ports:
       - 6379:6379
 #    volumes:
@@ -155,6 +175,8 @@ services:
     restart: always
     container_name: rabbitmq_messaging
     network_mode: bridge
+    networks: 
+      - services
     environment:
       RABBITMQ_DEFAULT_USER: "${SHARED_USER}"
       RABBITMQ_DEFAULT_PASS: "${SHARED_PASS}"
@@ -168,6 +190,8 @@ services:
     restart: always
     container_name: neo4j_database
     network_mode: bridge
+    networks: 
+      - services
     environment:
       NEO4J_ACCEPT_LICENSE_AGREEMENT: "yes"
     volumes:
@@ -182,7 +206,16 @@ services:
     container_name: docker_registry
     restart: always 
     network_mode: bridge
+    networks: 
+      - services
     volumes:
       - ./data/registry/data:/var/lib/registry
     ports:
       - 5000:5000 
+
+networks:
+  services: 
+    name: "webservices"
+  default:
+    external: true
+    name: "bridge"
