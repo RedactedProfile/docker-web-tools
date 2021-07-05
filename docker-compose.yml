@@ -1,16 +1,5 @@
 version: '3'
 
-volumes:
-  mysql:
-  mariadb:
-  postgres:
-  pgadmin:
-  mongo:
-  elasticsearch:
-  rabbitmq:
-  neo4j:
-  registry:
-
 services:
 
   mysql_legacy:
@@ -25,7 +14,7 @@ services:
       MYSQL_ROOT_PASSWORD: "${SHARED_PASS}"
     volumes:
       - ./config/mysql8/conf.d:/etc/mysql/conf.d
-      - mysql:/var/lib/mysql
+      - ./data/mysql_legacy/data:/var/lib/mysql
       - ./data/mysql/dumps:/dumps
       
   mysql:
@@ -40,7 +29,7 @@ services:
       MYSQL_ROOT_PASSWORD: "${SHARED_PASS}"
     volumes:
       - ./config/mysql8/conf.d:/etc/mysql/conf.d
-      - mysql:/var/lib/mysql
+      - ./data/mysql/data:/var/lib/mysql
       - ./data/mysql/dumps:/dumps
 
   mariadb:
@@ -54,7 +43,7 @@ services:
       MYSQL_ROOT_HOST: '%' # Will allow you to connect with external tools. Tighten up to your desires
       MYSQL_ROOT_PASSWORD: "${SHARED_PASS}"
     volumes:
-      - mariadb:/var/lib/mysql
+      - ./data/mariadb/data:/var/lib/mysql
       - ./data/mariadb/dumps:/dumps
 
   postgres_ext:
@@ -70,7 +59,7 @@ services:
       POSTGRES_USER: "${SHARED_USER}"
       POSTGRES_PASSWORD: "${SHARED_PASS}"
     volumes:
-      - postgres:/var/lib/postgresql/data
+      - ./data/postgres/data:/var/lib/postgresql/data
 
   postgres:
     image: postgres:11
@@ -84,7 +73,7 @@ services:
       POSTGRES_USER: "${SHARED_USER}"
       POSTGRES_PASSWORD: "${SHARED_PASS}"
     volumes:
-      - postgres:/var/lib/postgresql/data
+      - ./data/postgres/data:/var/lib/postgresql/data
 
   pgadmin:
     image: dpage/pgadmin4
@@ -97,7 +86,7 @@ services:
       PGADMIN_CONFIG_ENHANCED_COOKIE_PROTECTION: "True"
     volumes:
       - ./config/pgadmin/servers.json:/pgadmin4/servers.json
-      - pgadmin:/var/lib/pgadmin
+      - ./data/pgadmin/data:/var/lib/pgadmin
     ports:
       - 5433:80
       - 5434:443
@@ -115,7 +104,7 @@ services:
       MONGO_INITDB_ROOT_USERNAME: "${SHARED_USER}"
       MONGO_INITDB_ROOT_PASSWORD: "${SHARED_PASS}"
     volumes:
-      - mongo:/data/db
+      - ./data/mongo/data:/data/db
 
   mongo-express:
     image: mongo-express
@@ -147,7 +136,7 @@ services:
         soft: -1
         hard: -1
     volumes:
-      - elasticsearch:/usr/share/elasticsearch/data
+      - ./data/elasticsearch/data:/usr/share/elasticsearch/data
     ports:
       - 9200:9200
 
@@ -172,7 +161,7 @@ services:
     ports:
       - 5672:5672
     volumes:
-      - rabbitmq:/var/lib/rabbitmq
+      - ./data/rabbitmq/data:/var/lib/rabbitmq
 
   neo4j:
     image: neo4j:3.5
@@ -182,7 +171,7 @@ services:
     environment:
       NEO4J_ACCEPT_LICENSE_AGREEMENT: "yes"
     volumes:
-      - neo4j:/data
+      - ./data/neo4j/data:/data
       - ./logs/neo4j:/logs
     ports:
       - 7474:7474
@@ -194,6 +183,6 @@ services:
     restart: always 
     network_mode: bridge
     volumes:
-      - registry:/var/lib/registry
+      - ./data/registry/data:/var/lib/registry
     ports:
       - 5000:5000 
