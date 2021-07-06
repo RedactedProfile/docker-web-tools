@@ -6,7 +6,6 @@ services:
     image: mysql:5.7
     restart: always
     container_name: mysql_database
-    network_mode: bridge
     networks: 
       - services
     ports:
@@ -23,7 +22,6 @@ services:
     image: mysql:8
     restart: always
     container_name: mysql_database
-    network_mode: bridge
     networks: 
       - services
     ports:
@@ -40,7 +38,6 @@ services:
     image: mariadb:10.4
     restart: always
     container_name: maria_database
-    network_mode: bridge
     networks: 
       - services
     ports:
@@ -57,7 +54,6 @@ services:
     build: "./custom/postgres_ext/."
     restart: always
     container_name: pg_ext_database
-    network_mode: bridge
     networks: 
       - services
     ports:
@@ -73,7 +69,6 @@ services:
     image: postgres:11
     restart: always
     container_name: pg_database
-    network_mode: bridge
     networks: 
       - services
     ports:
@@ -89,7 +84,6 @@ services:
     image: dpage/pgadmin4
     restart: always
     container_name: pg_admin
-    network_mode: bridge
     networks: 
       - services
     environment:
@@ -109,7 +103,6 @@ services:
     image: mongo:4.2
     restart: always
     container_name: mongo_database
-    network_mode: bridge
     networks: 
       - services
     ports:
@@ -124,7 +117,6 @@ services:
     image: mongo-express
     restart: always
     container_name: mongo_admin
-    network_mode: bridge
     networks: 
       - services
     ports:
@@ -139,7 +131,6 @@ services:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.3.2
     restart: always
     container_name: elasticsearch_database
-    network_mode: bridge
     networks: 
       - services
     environment:
@@ -162,7 +153,6 @@ services:
     image: redis:5
     restart: always
     container_name: redis_cache
-    network_mode: bridge
     networks: 
       - services
     ports:
@@ -174,7 +164,6 @@ services:
     image: rabbitmq:3.7
     restart: always
     container_name: rabbitmq_messaging
-    network_mode: bridge
     networks: 
       - services
     environment:
@@ -189,7 +178,6 @@ services:
     image: neo4j:3.5
     restart: always
     container_name: neo4j_database
-    network_mode: bridge
     networks: 
       - services
     environment:
@@ -205,7 +193,6 @@ services:
     image: registry:2
     container_name: docker_registry
     restart: always 
-    network_mode: bridge
     networks: 
       - services
     volumes:
