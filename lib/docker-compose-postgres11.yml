@@ -1,0 +1,46 @@
+version: '3'
+
+services:
+
+  postgres11:
+    image: postgres:11
+    restart: always
+    container_name: pg11_database
+    networks: 
+      - services
+    ports:
+      - 5432:5432
+    user: "root"
+    environment:
+      POSTGRES_USER: "${SHARED_USER}"
+      POSTGRES_PASSWORD: "${SHARED_PASS}"
+    volumes:
+      - ../data/postgres11/data:/var/lib/postgresql/data
+
+  pgadmin11:
+    image: dpage/pgadmin4
+    restart: always
+    container_name: pg11_admin
+    networks: 
+      - services
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "${ADMIN_EMAIL}"
+      PGADMIN_DEFAULT_PASSWORD: "${SHARED_PASS}"
+      PGADMIN_CONFIG_ENHANCED_COOKIE_PROTECTION: "True"
+    volumes:
+      - ../config/pgadmin/servers.json:/pgadmin4/servers.json
+      - ../data/pg11admin/data:/var/lib/pgadmin
+    ports:
+      - 5433:80
+      - 5434:443
+    depends_on:
+      - postgres11
+    links: 
+      - postgres11
+
+networks:
+    services: 
+        name: "webservices"
+    default:
+        external: true
+        name: "bridge"

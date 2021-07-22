@@ -1,9 +1,45 @@
 {
   "name": "docker-tools",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "---",
   "main": "index.js",
   "scripts": {
+    "mysql57-up": "docker compose -f ./lib/docker-compose-mysql57.yml up -d",
+    "mysql57-down": "docker compose -f ./lib/docker-compose-mysql57.yml down",
+    
+    "mysql8-up": "docker compose -f ./lib/docker-compose-mysql8.yml up -d",
+    "mysql8-down": "docker compose -f ./lib/docker-compose-mysql8.yml down",
+    
+    "maria10-up": "docker compose -f ./lib/docker-compose-maria10.yml up -d",
+    "maria10-down": "docker compose -f ./lib/docker-compose-maria10.yml down",
+    
+    "postgres11_ext-up": "docker compose -f ./lib/docker-compose-postgres11_ext.yml up -d",
+    "postgres11_ext-down": "docker compose -f ./lib/docker-compose-postgres11_ext.yml down",
+    
+    "postgres11-up": "docker compose -f ./lib/docker-compose-postgres11.yml up -d",
+    "postgres11-down": "docker compose -f ./lib/docker-compose-postgres11.yml down",
+    
+    "mongo4-up": "docker compose -f ./lib/docker-compose-mongo4.yml up -d",
+    "mongo4-down": "docker compose -f ./lib/docker-compose-mongo4.yml down",
+    
+    "es6-up": "docker compose -f ./lib/docker-compose-elasticsearch6.yml up -d",
+    "es6-down": "docker compose -f ./lib/docker-compose-elasticsearch6.yml down",
+    
+    "es7-up": "docker compose -f ./lib/docker-compose-elasticsearch7.yml up -d",
+    "es7-down": "docker compose -f ./lib/docker-compose-elasticsearch7.yml down",
+    
+    "redis5-up": "docker compose -f ./lib/docker-compose-redis5.yml up -d",
+    "redis5-down": "docker compose -f ./lib/docker-compose-redis5.yml down",
+
+    "neo4j3-up": "docker compose -f ./lib/docker-compose-neo4j3.yml up -d",
+    "neo4j3-down": "docker compose -f ./lib/docker-compose-neo4j3.yml down",
+    
+    "rabbit3-up": "docker compose -f ./lib/docker-compose-rabbit3.yml up -d",
+    "rabbit3-down": "docker compose -f ./lib/docker-compose-rabbit3.yml down",
+    
+    "registry2-up": "docker compose -f ./lib/docker-compose-registry2.yml up -d",
+    "registry2-down": "docker compose -f ./lib/docker-compose-registry2.yml down",
+    
     "mysql-dump": "docker exec -it mysql_database bash -c \"mysqldump --all-databases -uroot -ptoor > /dumps/latest-dump.sql\"",
     "maria-dump": "docker exec -it maria_database bash -c \"mysqldump --all-databases -uroot -ptoor > /dumps/latest-dump.sql\""
   },

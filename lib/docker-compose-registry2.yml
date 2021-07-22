@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+
+  registry2:
+    image: registry:2
+    container_name: docker_registry
+    restart: always 
+    networks: 
+      - services
+    volumes:
+      - ../data/registry2/data:/var/lib/registry
+    ports:
+      - 5000:5000 
+
+networks:
+    services: 
+        name: "webservices"
+    default:
+        external: true
+        name: "bridge"

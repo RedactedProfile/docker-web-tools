@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+
+  redis5:
+    image: redis:5
+    restart: always
+    container_name: redis_cache
+    networks: 
+      - services
+    ports:
+      - 6379:6379
+   volumes:
+     - ../data/redis5:/data
+
+networks:
+    services: 
+        name: "webservices"
+    default:
+        external: true
+        name: "bridge"

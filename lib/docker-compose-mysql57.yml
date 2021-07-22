@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+
+    mysql57:
+        image: mysql:5.7
+        restart: always
+        container_name: mysql_database
+        networks: 
+            - services
+        ports:
+            - 3306:3306
+        environment:
+            MYSQL_ROOT_HOST: '%' # Will allow you to connect with external tools. Tighten up to your desires
+            MYSQL_ROOT_PASSWORD: "toor"
+        volumes:
+            - ../config/mysql57/config:/etc/mysql/conf.d
+            - ../data/mysql57/data:/var/lib/mysql
+            - ../data/mysql57/dumps:/dumps
+
+networks:
+    services: 
+        name: "webservices"
+    default:
+        external: true
+        name: "bridge"

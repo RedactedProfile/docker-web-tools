@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+
+    mysql8:
+        image: mysql:8
+        restart: always
+        container_name: mysql_database
+        networks: 
+            - services
+        ports:
+            - 3306:3306
+        environment:
+            MYSQL_ROOT_HOST: '%' # Will allow you to connect with external tools. Tighten up to your desires
+            MYSQL_ROOT_PASSWORD: "${SHARED_PASS}"
+        volumes:
+            - ../config/mysql8/conf.d:/etc/mysql/conf.d
+            - ../data/mysql8/data:/var/lib/mysql
+            - ../data/mysql8/dumps:/dumps
+
+networks:
+    services: 
+        name: "webservices"
+    default:
+        external: true
+        name: "bridge"

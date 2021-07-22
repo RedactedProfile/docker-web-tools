@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+
+  elasticsearch6:
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.8.16
+    restart: always
+    container_name: elasticsearch6_database
+    networks: 
+      - services
+    environment:
+      - discovery.type=single-node
+      - cluster.name=docker-cluster
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - ../data/elasticsearch6/data:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+
+networks:
+    services: 
+        name: "webservices"
+    default:
+        external: true
+        name: "bridge"

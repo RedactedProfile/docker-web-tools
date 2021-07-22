@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+
+    mariadb10:
+        image: mariadb:10.4
+        restart: always
+        container_name: maria_database
+        networks: 
+          - services
+        ports:
+          - 3306:3306
+        environment:
+          MYSQL_ROOT_HOST: '%' # Will allow you to connect with external tools. Tighten up to your desires
+          MYSQL_ROOT_PASSWORD: "${SHARED_PASS}"
+        volumes:
+          - ../data/mariadb/data:/var/lib/mysql
+          - ../data/mariadb/dumps:/dumps
+
+networks:
+    services: 
+        name: "webservices"
+    default:
+        external: true
+        name: "bridge"
