@@ -1,4 +1,4 @@
-version: '3'
+version: '3.5'
 
 services:
 
@@ -7,7 +7,7 @@ services:
     restart: always
     container_name: mongo_database
     networks: 
-      - services
+      - webservices
     ports:
       - 27017:27017
     environment:
@@ -21,7 +21,7 @@ services:
     restart: always
     container_name: mongo4_admin
     networks: 
-      - services
+      - webservices
     ports:
       - 8081:8081
     environment:
@@ -31,8 +31,5 @@ services:
       - mongo4
 
 networks:
-    services: 
-        name: "webservices"
-    default:
-        external: true
-        name: "bridge"
+  webservices:
+      name: webservices

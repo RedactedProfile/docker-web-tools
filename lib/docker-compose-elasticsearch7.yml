@@ -1,4 +1,4 @@
-version: '3'
+version: '3.5'
 
 services:
 
@@ -7,7 +7,7 @@ services:
     restart: always
     container_name: elasticsearch7_database
     networks: 
-      - services
+      - webservices
     environment:
       - node.name=es01
       - discovery.seed_hosts=es02
@@ -25,8 +25,5 @@ services:
       - 9200:9200
 
 networks:
-    services: 
-        name: "webservices"
-    default:
-        external: true
-        name: "bridge"
+  webservices:
+      name: webservices

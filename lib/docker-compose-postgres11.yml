@@ -1,4 +1,4 @@
-version: '3'
+version: '3.5'
 
 services:
 
@@ -7,7 +7,7 @@ services:
     restart: always
     container_name: pg11_database
     networks: 
-      - services
+      - webservices
     ports:
       - 5432:5432
     user: "root"
@@ -22,7 +22,7 @@ services:
     restart: always
     container_name: pg11_admin
     networks: 
-      - services
+      - webservices
     environment:
       PGADMIN_DEFAULT_EMAIL: "${ADMIN_EMAIL}"
       PGADMIN_DEFAULT_PASSWORD: "${SHARED_PASS}"
@@ -39,8 +39,5 @@ services:
       - postgres11
 
 networks:
-    services: 
-        name: "webservices"
-    default:
-        external: true
-        name: "bridge"
+  webservices:
+    name: webservices

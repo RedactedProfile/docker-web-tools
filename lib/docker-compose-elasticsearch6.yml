@@ -1,4 +1,4 @@
-version: '3'
+version: '3.5'
 
 services:
 
@@ -7,7 +7,7 @@ services:
     restart: always
     container_name: elasticsearch6_database
     networks: 
-      - services
+      - webservices
     environment:
       - discovery.type=single-node
       - cluster.name=docker-cluster
@@ -23,8 +23,5 @@ services:
       - 9200:9200
 
 networks:
-    services: 
-        name: "webservices"
-    default:
-        external: true
-        name: "bridge"
+  webservices:
+      name: webservices

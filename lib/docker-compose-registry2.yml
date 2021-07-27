@@ -1,4 +1,4 @@
-version: '3'
+version: '3.5'
 
 services:
 
@@ -7,15 +7,12 @@ services:
     container_name: docker_registry
     restart: always 
     networks: 
-      - services
+      - webservices
     volumes:
       - ../data/registry2/data:/var/lib/registry
     ports:
       - 5000:5000 
 
 networks:
-    services: 
-        name: "webservices"
-    default:
-        external: true
-        name: "bridge"
+  webservices:
+    name: webservices

@@ -1,4 +1,4 @@
-version: '3'
+version: '3.5'
 
 services:
 
@@ -7,7 +7,7 @@ services:
     restart: always
     container_name: rabbitmq_messaging
     networks: 
-      - services
+      - webservices
     environment:
       RABBITMQ_DEFAULT_USER: "${SHARED_USER}"
       RABBITMQ_DEFAULT_PASS: "${SHARED_PASS}"
@@ -17,8 +17,5 @@ services:
       - ../data/rabbit3/data:/var/lib/rabbitmq
 
 networks:
-    services: 
-        name: "webservices"
-    default:
-        external: true
-        name: "bridge"
+  webservices:
+    name: webservices
