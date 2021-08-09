@@ -31,6 +31,9 @@
     "redis5-up": "docker compose -f ./lib/docker-compose-redis5.yml up -d",
     "redis5-down": "docker compose -f ./lib/docker-compose-redis5.yml down",
 
+    "redis6-up": "docker compose -f ./lib/docker-compose-redis6.yml up -d",
+    "redis6-down": "docker compose -f ./lib/docker-compose-redis6.yml down",
+
     "neo4j3-up": "docker compose -f ./lib/docker-compose-neo4j3.yml up -d",
     "neo4j3-down": "docker compose -f ./lib/docker-compose-neo4j3.yml down",
     
